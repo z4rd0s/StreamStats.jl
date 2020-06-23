@@ -32,13 +32,16 @@ carlo = StreamStats.compute_monte_carlo(urandom(10))
 3. `python -c "import julia; julia.install()"`
 
 ## Usage
-``` 
-from julia.api import Julia 
-jl = Julia(compiled_modules=False) 
-from julia import StreamStats
-
-data = [random_values]
-chi = StreamStats.chi_squared(data)
-shanon = StreamStats.compute_shanon(data)
-carlo = StreamStats.compute_monte_carlo(data)
+```Python
+Python 3.6.10 (default, Jan 16 2020, 09:12:04) [GCC] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>>
+>>> from julia.api import Julia
+>>> jl = Julia(compiled_modules=False)
+>>> from julia import StreamStats
+>>> import os
+>>> data = bytearray(os.urandom(10))
+>>> chi = StreamStats.chi_squared(data)
+>>> shanon = StreamStats.compute_shanon(data)
+>>> carlo = StreamStats.compute_monte_carlo(data)
 ```
