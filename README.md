@@ -6,11 +6,11 @@ Julia functions to calculate
 * Chi-Squard
 
 ## Installation Steps
-1. install julia  -> https://julialang.org/
-1. execute julia
+1. Install [julia](https://julialang.org/) from source or with your preferred
+   package manager.
+2. Execute julia and enter the builtin package manager with pressing `]`
 ```
-using Pkg
-pkg.add("https://github.com/z4rd0s/StreamStats.jl")
+(v1.0) pkg> add https://github.com/z4rd0s/StreamStats.jl
 ```
 ## Usage
 1. execute julia
