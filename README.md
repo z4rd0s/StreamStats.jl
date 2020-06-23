@@ -22,3 +22,20 @@ shanon = StreamStats.compute_shanon(data)
 carlo = StreamStats.compute_monte_carlo(data)
 ```
 
+## Usage from python
+# Install
+1. `python -m venv .venv && source .venv/bin/activate` 
+1. `pip install -r requirements` 
+1. `python -c "import julia; julia.install()"`
+
+# Usage
+``` 
+from julia.api import Julia 
+jl = Julia(compiled_modules=False) 
+from julia import StreamStats
+
+data = [random_values]
+chi = StreamStats.chi_squared(data)
+shanon = StreamStats.compute_shanon(data)
+carlo = StreamStats.compute_monte_carlo(data)
+```
