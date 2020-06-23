@@ -27,9 +27,9 @@ carlo = StreamStats.compute_monte_carlo(urandom(10))
 
 # Usage from python
 ## Install
-1. `python -m venv .venv && source .venv/bin/activate` 
-1. `pip install -r requirements` 
-1. `python -c "import julia; julia.install()"`
+1. `python3 -m venv .venv && source .venv/bin/activate`
+2. `pip install -r requirements.txt`
+3. `python -c "import julia; julia.install()"`
 
 ## Usage
 ``` 
