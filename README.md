@@ -13,13 +13,16 @@ Julia functions to calculate
 (v1.0) pkg> add https://github.com/z4rd0s/StreamStats.jl
 ```
 ## Usage
-1. execute julia
+1. Execute julia
 ```
 using StreamStats
-data = [random_values]
-chi = StreamStats.chi_squared(data)
-shanon = StreamStats.compute_shanon(data)
-carlo = StreamStats.compute_monte_carlo(data)
+using Random
+
+urandom(n) = rand(RandomDevice(), UInt8, n)
+
+chi = StreamStats.chi_squared(urandom(10))
+shanon = StreamStats.compute_shanon(urandom(10))
+carlo = StreamStats.compute_monte_carlo(urandom(10))
 ```
 
 # Usage from python
