@@ -60,7 +60,8 @@ function get_all(data)
     data -- data bytes
     """
     carlo = monte_carlo_pi(data)
-    return carlo,
+    return length(data),
+           carlo,
            pi_deviation(carlo),
            chi_squared(data),
            Statistics.minimum(data),
