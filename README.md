@@ -8,7 +8,6 @@ Julia functions to calculate
 ## Installation Steps
 1. Install [julia](https://julialang.org/) from source or with your preferred
    package manager.
-2. Execute julia and enter the builtin package manager with pressing `]`
 ```
 using Pkg
 Pkg.add("https://github.com/z4rd0s/StreamStats.jl")
