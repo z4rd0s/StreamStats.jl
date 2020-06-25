@@ -4,7 +4,6 @@ using OffsetArrays
 using Statistics
 using StatsBase
 
-
 function monte_carlo_pi(data)
     """
     Calculate Monte Carlo Pi approximation for a given byte array.
@@ -55,6 +54,11 @@ function chi_squared(data)
 end
 
 function get_all(data)
+    """
+    Returns a set of Statistical Information about the data
+    Keywird arguments:
+    data -- data bytes
+    """
     carlo = monte_carlo_pi(data)
     return carlo,
            pi_deviation(carlo),
