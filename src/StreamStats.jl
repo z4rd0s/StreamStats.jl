@@ -10,7 +10,7 @@ function monte_carlo_pi(data)
     Keyword arguments:
     data -- data bytes
     """
-    set_length::Int32 = (length(data) / 2) - 1
+    set_length::Int32 = round((length(data) / 2) - 1)
     r_square::Int16 = 128^2
     circle_surface::Float16 = 0
 

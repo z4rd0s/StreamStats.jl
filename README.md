@@ -18,7 +18,6 @@ Pkg.add("https://github.com/z4rd0s/StreamStats.jl")
 using StreamStats
 
 random(n) = rand(UInt8, n)
-
 data = StreamStats.get_all(random(1000))
 ```
 
@@ -34,7 +33,7 @@ Python 3.6.10 (default, Jan 16 2020, 09:12:04) [GCC] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>>
 >>> from julia.api import Julia
->>> jl = Julia(compiled_modules=False)
+>>> Julia(compiled_modules=False)
 >>> from julia import StreamStats
 >>> import os
 >>> data = bytearray(os.urandom(10))
