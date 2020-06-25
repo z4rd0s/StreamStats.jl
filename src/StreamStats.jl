@@ -3,6 +3,8 @@ module StreamStats
 using OffsetArrays
 using Statistics
 using StatsBase
+using Distances
+using BenchmarkTools
 
 function monte_carlo_pi(data)
     """
@@ -60,10 +62,7 @@ function get_all(data)
     data -- data bytes
     """
     carlo = monte_carlo_pi(data)
-    return length(data),
-           carlo,
-           pi_deviation(carlo),
-           chi_squared(data),
+    return chi_squared(data),
            Statistics.minimum(data),
            Statistics.maximum(data),
            Statistics.mean(data),
@@ -72,12 +71,16 @@ function get_all(data)
            StatsBase.std(data),
            StatsBase.kurtosis(data),
            StatsBase.cor(data),
-           StatsBase.cov(data),
            StatsBase.skewness(data),
            StatsBase.variation(data),
            StatsBase.sem(data),
-           StatsBase.mad(data),
-           StatsBase.entropy(data)
+           StatsBase.entropy(data),
+           StatsBase.cov(data),
+           StatsBase.mad(data, normalize=false),
+           carlo,
+           pi_deviation(carlo),
+           StatsBase.countmap(data),
+           length(data)
 end
 
 end

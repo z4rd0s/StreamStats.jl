@@ -9,8 +9,7 @@ Julia functions to calculate
 1. Install [julia](https://julialang.org/) from source or with your preferred
    package manager.
 ```
-using Pkg
-Pkg.add("https://github.com/z4rd0s/StreamStats.jl")
+julia -e 'using Pkg; Pkg.add(PackageSpec(url="https://github.com/z4rd0s/StreamStats.jl"))'
 ```
 ## Usage
 1. Execute julia
@@ -36,6 +35,6 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> Julia(compiled_modules=False)
 >>> from julia import StreamStats
 >>> import os
->>> data = bytearray(os.urandom(10))
+>>> data = bytearray(os.urandom(1000))
 >>> stats = StreamStats.get_all(data)
 ```
