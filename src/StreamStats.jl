@@ -1,25 +1,11 @@
 module StreamStats
 
 using OffsetArrays
+using Statistics
+using StatsBase
 
-function compute_shanon(data)
-    """
-    Calculate Shannon entropy value for a given byte array.
-        Keyword arguments:
-        data -- data bytes
-    """
-    entropy::Float16 = 0
-    d = Array([(count(x->x==i,data)) for i in data])
-    for i in d
-        it = float(i/length(data))
-        if i > 0
-            entropy += - it * log(it ,2)
-        end
-    end
-    return entropy
-end
 
-function compute_monte_carlo(data)
+function monte_carlo_pi(data)
     """
     Calculate Monte Carlo Pi approximation for a given byte array.
     Keyword arguments:
@@ -38,7 +24,7 @@ function compute_monte_carlo(data)
     return 4 * circle_surface / set_length
 end
 
-function get_pi_deviation(pi_value)
+function pi_deviation(pi_value)
     """
     Returns an absolute percentage of difference between the provided Pi
     value and canonic.
@@ -66,6 +52,27 @@ function chi_squared(data)
     end
 
     return chi_squared
+end
+
+function get_all(data)
+    carlo = monte_carlo_pi(data)
+    return carlo,
+           pi_deviation(carlo),
+           chi_squared(data),
+           Statistics.minimum(data),
+           Statistics.maximum(data),
+           Statistics.mean(data),
+           Statistics.median(data),
+           Statistics.middle(data),
+           StatsBase.std(data),
+           StatsBase.kurtosis(data),
+           StatsBase.cor(data),
+           StatsBase.cov(data),
+           StatsBase.skewness(data),
+           StatsBase.variation(data),
+           StatsBase.sem(data),
+           StatsBase.mad(data),
+           StatsBase.entropy(data)
 end
 
 end

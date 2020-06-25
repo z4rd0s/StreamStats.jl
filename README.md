@@ -10,19 +10,19 @@ Julia functions to calculate
    package manager.
 2. Execute julia and enter the builtin package manager with pressing `]`
 ```
-(v1.0) pkg> add https://github.com/z4rd0s/StreamStats.jl
+using Pkg
+Pkg.add("https://github.com/z4rd0s/StreamStats.jl")
 ```
 ## Usage
 1. Execute julia
 ```
 using StreamStats
-using Random
 
-urandom(n) = rand(RandomDevice(), UInt8, n)
+random(n) = rand(UInt8, n)
 
-chi = StreamStats.chi_squared(urandom(10))
-shanon = StreamStats.compute_shanon(urandom(10))
-carlo = StreamStats.compute_monte_carlo(urandom(10))
+chi = StreamStats.chi_squared(random(10))
+shanon = StreamStats.compute_shanon(random(10))
+carlo = StreamStats.compute_monte_carlo(random(10))
 ```
 
 # Usage from python
