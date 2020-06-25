@@ -19,9 +19,7 @@ using StreamStats
 
 random(n) = rand(UInt8, n)
 
-chi = StreamStats.chi_squared(random(10))
-shanon = StreamStats.compute_shanon(random(10))
-carlo = StreamStats.compute_monte_carlo(random(10))
+data = StreamStats.get_all(random(1000))
 ```
 
 # Usage from python
@@ -40,7 +38,5 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> from julia import StreamStats
 >>> import os
 >>> data = bytearray(os.urandom(10))
->>> chi = StreamStats.chi_squared(data)
->>> shanon = StreamStats.compute_shanon(data)
->>> carlo = StreamStats.compute_monte_carlo(data)
+>>> stats = StreamStats.get_all(data)
 ```
