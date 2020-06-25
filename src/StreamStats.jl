@@ -3,8 +3,6 @@ module StreamStats
 using OffsetArrays
 using Statistics
 using StatsBase
-using Distances
-using BenchmarkTools
 
 function monte_carlo_pi(data)
     """
