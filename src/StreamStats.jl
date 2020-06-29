@@ -1,6 +1,5 @@
 module StreamStats
 
-#import Pkg; Pkg.add("OffsetArrays")
 using OffsetArrays
 using Statistics
 using StatsBase
@@ -61,11 +60,6 @@ function get_all(data)
     Keywird arguments:
     data -- data bytes
     """
-    #raw_data = Array{UInt8}[]
-    #readbytes!(data, raw_data)
-    #data = read(data, UInt8)
-
-
     carlo = monte_carlo_pi(data)
     dist = StatsBase.countmap(data)
     ddist = Dict{Int32,Int32}()
@@ -105,7 +99,7 @@ end
 
 Base.@ccallable function julia_main()::Cint
     try
-        real_main()
+        main()
     catch
         Base.invokelatest(Base.display_error, Base.catch_stack())
         return 1
@@ -113,20 +107,18 @@ Base.@ccallable function julia_main()::Cint
     return 0
 end
 
-function real_main()
+function main()
+    println(ARGS)
     for file in ARGS
         if !isfile(file)
             error("could not find file $file")
         end
-        df = read(file)
-        data = get_all(df)
-        #println(file, ": ", size(df, 1), "x", size(df, 2))
-        println(data)
+        println(get_all(read(file)))
     end
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__
-    real_main()
+    main()
 end
 
 end
