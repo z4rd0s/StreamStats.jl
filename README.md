@@ -38,3 +38,27 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> data = bytearray(os.urandom(1000))
 >>> stats = StreamStats.get_all(data)
 ```
+
+## Creating Binary
+
+1. Precompile StreamStats.jl
+```bash
+julia --startup-file=no --trace-compile=StreamStats_precompile.jl ../src/StreamStats.jl "anyfile.bin"
+```
+
+2. Generate Custom Image
+```bash
+cd bin
+julia --startup-file=no -J"<path to>/julia/lib/julia/sys.so" --output-o custom-sys.o custom_sysimage.jl
+gcc -shared -o custom-sys.so -fPIC -Wl,--whole-archive custom-sys.o -Wl,--no-whole-archive -L"<path to julia/lib>/usr/share/julia-1.4.2/lib/" -ljulia
+```
+
+3. Building the executable
+```bash
+gcc -DJULIAC_PROGRAM_LIBNAME=\"custom-sys.so\" -o StreamStats.bin StreamStats.c custom-sys.so -O2 -fPIE -I'<path to julia>/usr/share/julia-1.4.2/include/julia' -L'<path to julia/lib>/usr/share/julia-1.4.2/lib' -ljulia -Wl,-rpath,'<path to julia binary at remote destinateion>/usr/share/julia-1.4.2/lib:$ORIGIN'
+```
+
+4. Run the executable
+```bash
+$ ./StreamStats.bin <path to any file>
+```

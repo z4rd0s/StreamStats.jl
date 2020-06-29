@@ -1,8 +1,10 @@
 module StreamStats
 
+#import Pkg; Pkg.add("OffsetArrays")
 using OffsetArrays
 using Statistics
 using StatsBase
+using ArgParse
 
 function monte_carlo_pi(data)
     """
@@ -59,26 +61,71 @@ function get_all(data)
     Keywird arguments:
     data -- data bytes
     """
+    #raw_data = Array{UInt8}[]
+    #readbytes!(data, raw_data)
+    #data = read(data, UInt8)
+
+
     carlo = monte_carlo_pi(data)
-    return chi_squared(data),
-           Statistics.minimum(data),
-           Statistics.maximum(data),
-           Statistics.mean(data),
-           Statistics.median(data),
-           Statistics.middle(data),
-           StatsBase.std(data),
-           StatsBase.kurtosis(data),
-           StatsBase.cor(data),
-           StatsBase.skewness(data),
-           StatsBase.variation(data),
-           StatsBase.sem(data),
-           StatsBase.entropy(data),
-           StatsBase.cov(data),
-           StatsBase.mad(data, normalize=false),
-           carlo,
-           pi_deviation(carlo),
-           StatsBase.countmap(data),
-           length(data)
+    dist = StatsBase.countmap(data)
+    ddist = Dict{Int32,Int32}()
+    for i in 0:255
+        if Base.haskey(dist,i)
+          ddist[i] = dist[i]
+        else
+          ddist[i] = 0
+        end
+    end
+
+    orderd_dist =  sort(collect(dist), by=x->x[1])
+
+    return Dict{String, Any}([
+              "length"         => length(data),
+              "chi-squared"    => chi_squared(data),
+              "min"            => Int(Statistics.minimum(data)),
+              "max"            => Int(Statistics.maximum(data)),
+              "mean"           => Statistics.mean(data),
+              "median"         => Statistics.median(data),
+              "middle"         => Statistics.middle(data),
+              "standard-dev"   => StatsBase.std(data),
+              "kurtosis"       => StatsBase.kurtosis(data),
+              "cor"            => Int(StatsBase.cor(data)),
+              "skewness"       => StatsBase.skewness(data),
+              "variation"      => StatsBase.variation(data),
+              "sem"            => StatsBase.sem(data),
+              "entropy"        => StatsBase.entropy(data),
+              "cov"            => StatsBase.cov(data),
+              "mad"            => StatsBase.mad(data, normalize=false),
+              "monte-carlo-pi" => carlo,
+              "pi-deviation"   => pi_deviation(carlo),
+              "distribution"   => orderd_dist
+            ])
+end
+
+Base.@ccallable function julia_main()::Cint
+    try
+        real_main()
+    catch
+        Base.invokelatest(Base.display_error, Base.catch_stack())
+        return 1
+    end
+    return 0
+end
+
+function real_main()
+    for file in ARGS
+        if !isfile(file)
+            error("could not find file $file")
+        end
+        df = read(file)
+        data = get_all(df)
+        #println(file, ": ", size(df, 1), "x", size(df, 2))
+        println(data)
+    end
+end
+
+if abspath(PROGRAM_FILE) == @__FILE__
+    real_main()
 end
 
 end
