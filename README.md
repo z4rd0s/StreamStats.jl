@@ -11,7 +11,7 @@ Julia functions to calculate
 ```
 julia -e 'using Pkg; Pkg.add(PackageSpec(url="https://github.com/z4rd0s/StreamStats.jl"))'
 ```
-## Usage
+# Usage from julia
 1. Execute julia
 ```
 using StreamStats
@@ -39,8 +39,8 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> stats = StreamStats.get_all(data)
 ```
 
+# Usage as Binary
 ## Creating Binary
-
 1. Precompile StreamStats.jl
 ```bash
 cd bin
@@ -62,6 +62,7 @@ gcc -DJULIAC_PROGRAM_LIBNAME=\"StreamStats-sys.so\" -o StreamStats.bin StreamSta
 ```
 
 4. Run the executable
+StreamStats.bin and StreamStats-sys.so must be executed within the same directory
 ```bash
 $ ./StreamStats.bin <path to any file>
 ```
