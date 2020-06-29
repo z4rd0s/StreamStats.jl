@@ -4,7 +4,7 @@ module StreamStats
 using OffsetArrays
 using Statistics
 using StatsBase
-using ArgParse
+using JSON
 
 function monte_carlo_pi(data)
     """
@@ -79,27 +79,28 @@ function get_all(data)
 
     orderd_dist =  sort(collect(dist), by=x->x[1])
 
-    return Dict{String, Any}([
-              "length"         => length(data),
-              "chi-squared"    => chi_squared(data),
-              "min"            => Int(Statistics.minimum(data)),
-              "max"            => Int(Statistics.maximum(data)),
-              "mean"           => Statistics.mean(data),
-              "median"         => Statistics.median(data),
-              "middle"         => Statistics.middle(data),
-              "standard-dev"   => StatsBase.std(data),
-              "kurtosis"       => StatsBase.kurtosis(data),
-              "cor"            => Int(StatsBase.cor(data)),
-              "skewness"       => StatsBase.skewness(data),
-              "variation"      => StatsBase.variation(data),
-              "sem"            => StatsBase.sem(data),
-              "entropy"        => StatsBase.entropy(data),
-              "cov"            => StatsBase.cov(data),
-              "mad"            => StatsBase.mad(data, normalize=false),
-              "monte-carlo-pi" => carlo,
-              "pi-deviation"   => pi_deviation(carlo),
-              "distribution"   => orderd_dist
-            ])
+    return JSON.json(Dict{String, Any}([
+                "length"         => length(data),
+                "chi-squared"    => chi_squared(data),
+                "min"            => Int(Statistics.minimum(data)),
+                "max"            => Int(Statistics.maximum(data)),
+                "mean"           => Statistics.mean(data),
+                "median"         => Statistics.median(data),
+                "middle"         => Statistics.middle(data),
+                "standard-dev"   => StatsBase.std(data),
+                "kurtosis"       => StatsBase.kurtosis(data),
+                "cor"            => Int(StatsBase.cor(data)),
+                "skewness"       => StatsBase.skewness(data),
+                "variation"      => StatsBase.variation(data),
+                "sem"            => StatsBase.sem(data),
+                "entropy"        => StatsBase.entropy(data),
+                "cov"            => StatsBase.cov(data),
+                "mad"            => StatsBase.mad(data, normalize=false),
+                "monte-carlo-pi" => carlo,
+                "pi-deviation"   => pi_deviation(carlo),
+                "distribution"   => orderd_dist
+                ])
+            )
 end
 
 Base.@ccallable function julia_main()::Cint
