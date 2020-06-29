@@ -66,3 +66,39 @@ StreamStats.bin and StreamStats-sys.so must be executed within the same director
 ```bash
 $ ./StreamStats.bin <path to any file>
 ```
+
+## Calling Binary from python
+```Python
+import subprocess
+import logging
+import json
+
+def run(cmd: str) -> bool:
+    """Executes a command line locally
+
+    :param cmd: The command line string
+    :type cmd: str
+    :return: Returns True if the commandline could be exectued
+                successfully, otherwise False
+    :rtype: bool
+    """
+    try:
+        proc = subprocess.Popen(
+                cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        output, error = proc.communicate(timeout=15)
+
+        if proc.returncode == 0:
+            return output
+        logging.error("Command <%s> failed", cmd)
+        return False
+    except subprocess.TimeoutExpired:
+        proc.kill()
+        logging.error("Command <%s> timed out", cmd, exc_info=True)
+        return False
+    except Exception:
+        logging.error("Command <%s> failed", cmd, exc_info=True)
+        return False
+
+cmd_StreamStats = ["./bin/StreamStats.bin", "./bin/example.pdf"]
+data = json.loads(run(cmd_StreamStats))
+```
